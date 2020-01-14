@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tomitribe Confidential
+  Copyright Tomitribe Corporation. 2019
+  The source code for this program is not published or otherwise divested
+  of its trade secrets, irrespective of what has been deposited with the
+  U.S. Copyright Office.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.tomitribe</groupId>
+    <artifactId>tomitribe-parent</artifactId>
+    <version>9</version>
+  </parent>
+
+  <artifactId>jmx-listener-exploit</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Tomitribe :: JMX Listener Exploit</name>
+
+  <scm>
+    <connection>scm:git:git@github.com:tomitribe/jmx-listener-exploit.git</connection>
+    <url>scm:git:git@github.com:tomitribe/jmx-listener-exploit.git</url>
+    <developerConnection>scm:git:git@github.com:tomitribe/jmx-listener-exploit.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.tomitribe</groupId>
+      <artifactId>tomitribe-crest</artifactId>
+      <version>0.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.tomitribe</groupId>
+      <artifactId>tomitribe-crest-xbean</artifactId>
+      <version>0.10</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- exclude a bit more -->
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>0.10</version>
+        <configuration>
+          <includes>
+            <include>src/**/*</include>
+            <include>pom.xml</include>
+          </includes>
+          <excludes>
+            <exclude>**/*/MANIFEST.MF</exclude>
+            <exclude>.git</exclude>
+            <exclude>.gitignore</exclude>
+            <exclude>derby.log</exclude>
+            <exclude>**/META-INF/services/*</exclude>
+            <exclude>**/bootstrap-*</exclude>
+            <exclude>**/js/jquery-*</exclude>
+            <exclude>**/*.json</exclude>
+            <exclude>src/test/resources/**/*.txt</exclude>
+            <exclude>src/test/resources/**/*.csv</exclude>
+            <exclude>src/test/resources/**/*.sh</exclude>
+            <exclude>src/test/resources/colors/other/hsb/saturation</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <!-- make an uber jar with all deps -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>org.tomitribe.crest.Main</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- now make the jar chmod +x style executable -->
+      <plugin>
+        <groupId>org.skife.maven</groupId>
+        <artifactId>really-executable-jar-maven-plugin</artifactId>
+        <version>1.1.0</version>
+        <configuration>
+          <!-- value of flags will be interpolated into the java invocation -->
+          <!-- as "java $flags -jar ..." -->
+          <flags>-Xmx1G</flags>
+          <programFile>${project.artifactId}</programFile>
+        </configuration>
+
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>really-executable-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>tomitribe-all</id>
+      <name>Tomitribe Repository</name>
+      <url>https://repository.tomitribe.com/content/groups/tomitribe/</url>
+    </repository>
+  </repositories>
+
+</project>
+
