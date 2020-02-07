@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <artifactId>tomitribe-parent</artifactId>
-    <groupId>com.tomitribe</groupId>
-    <version>9</version>
-    <relativePath>../pom.xml/pom.xml</relativePath>
-  </parent>
   <modelVersion>4.0.0</modelVersion>
+  <groupId>com.tomitribe</groupId>
   <artifactId>jmx-listener-exploit</artifactId>
   <name>Tomitribe :: JMX Listener Exploit</name>
   <version>0.0.1-SNAPSHOT</version>
@@ -17,39 +12,6 @@
   </scm>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>0.10</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <includes>
-            <include>src/**/*</include>
-            <include>pom.xml</include>
-          </includes>
-          <excludes>
-            <exclude>**/*/MANIFEST.MF</exclude>
-            <exclude>.git</exclude>
-            <exclude>.gitignore</exclude>
-            <exclude>derby.log</exclude>
-            <exclude>**/META-INF/services/*</exclude>
-            <exclude>**/bootstrap-*</exclude>
-            <exclude>**/js/jquery-*</exclude>
-            <exclude>**/*.json</exclude>
-            <exclude>src/test/resources/**/*.txt</exclude>
-            <exclude>src/test/resources/**/*.csv</exclude>
-            <exclude>src/test/resources/**/*.sh</exclude>
-            <exclude>src/test/resources/colors/other/hsb/saturation</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
